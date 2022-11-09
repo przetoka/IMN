@@ -1,4 +1,3 @@
-from re import U
 import matplotlib.pyplot as plt
 import math
 import numpy as np
@@ -72,12 +71,16 @@ def rk2_method(beta, N, gamma, t_max, deltat, u_0, TOL, mu_max, a, b, c):
         deltaU1 = (F2 * m[0][1] - F1 * m[1][1])/(m[0][0] * m[1][1] - m[0][1] * m[1][0])
         deltaU2 = (F1 * m[1][0] - F2 * m[0][0])/(m[0][0] * m[1][1] - m[0][1] * m[1][0])
 
+        u_mu = U[i]
         while mu <= mu_max:
             mu +=1
             temp = U[i] + deltat*(f(t+(1/2 - math.sqrt(3)/6)*deltat, U1)/2 + f(t+(1/2 + math.sqrt(3)/6)*deltat, U2)/2)
             U1 += deltaU1
             U2 += deltaU2
-        U.append(temp)
+            if math.fabs(temp - u_mu) < TOL:
+                break
+            u_mu = temp
+        U.append(u_mu)
         t +=deltat
     return U
 
