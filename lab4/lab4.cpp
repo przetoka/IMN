@@ -1,6 +1,9 @@
 #include <iostream>
 #include <cmath>
 #include <fstream>
+#include <bits/stdc++.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 #define e       1.0
 #define n_x     150
@@ -88,7 +91,6 @@ void global_relaxation(double omega_g, std::string filename_map, std::string fil
             file_err << i * delta << " " << j * delta << " " << err[i][j]<< "\n";
         }
     }
-
 }
 
 void local_relaxation(double omega_l, std::string filename){
@@ -122,6 +124,16 @@ void local_relaxation(double omega_l, std::string filename){
 }
 
 int main(){
+    if (mkdir("data", 0777) == -1)
+        std::cerr << "Error :  " << strerror(errno) << std::endl;
+    else
+        std::cout << "Directory created\n";
+
+    if (mkdir("plots", 0777) == -1)
+        std::cerr << "Error :  " << strerror(errno) << std::endl;
+    else
+        std::cout << "Directory created\n";
+        
     double omega_L[] = {1.0, 1.4, 1.8, 1.9};
     double omega_G[] = {0.6, 1.0};
     
